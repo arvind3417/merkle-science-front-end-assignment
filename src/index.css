@@ -1,13 +1,75 @@
+/* src/styles.css */
+
+/* Your CSS styles go here */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.calendar-container {
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.calendar-controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.calendar-controls button {
+  color: inherit;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* .calendar-controls button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+} */
+
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar-header,
+.calendar-cell {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #ddd;
+}
+
+.calendar-header {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.calendar-cell.today {
+  background-color: #e6f7ff;
+  color: #007bff;
+}
+
+.date {
+  font-size: 18px;
+}
+
+.holidays {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #bd2130;
 }
