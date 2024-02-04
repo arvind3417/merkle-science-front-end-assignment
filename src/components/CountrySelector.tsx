@@ -1,8 +1,7 @@
-// src/components/CountrySelector.tsx
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
-import { FaTimes } from 'react-icons/fa'; // Import the close icon
+import { FaTimes } from 'react-icons/fa';
 
 interface CountrySelectorProps {
   isOpen: boolean;
@@ -25,8 +24,8 @@ const customStyles: CustomStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: '400px', // Set your preferred fixed width here
-    height: '400px',
+    width: '400px',
+    height: '375px',
   },
   closeButton: {
     position: 'absolute',
@@ -68,6 +67,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({ isOpen, options, sele
           autoFocus
           isSearchable
           placeholder="Search for a country..."
+          defaultValue={options.find((country) => country.value === selectedValue)}
         />
       </div>
     </Modal>

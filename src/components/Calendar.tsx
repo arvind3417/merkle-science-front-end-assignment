@@ -1,4 +1,3 @@
-// src/components/Calendar.tsx
 import React, { useEffect, useState } from "react";
 import {
   format,
@@ -8,17 +7,17 @@ import {
   endOfWeek,
   addDays,
   isSameMonth,
-  isToday,
   subMonths,
   addMonths,
   subYears,
   addYears,
   setYear,
 } from "date-fns";
+import axios from "axios";
 import { useTheme } from "../ThemeContext";
 import "../styles.css";
-import axios from "axios";
-import CountrySelector from "./CountrySelector";
+import CalendarControls from "./CalendarControls";
+import CalendarTable from "./CalendarTable";
 
 interface Holiday {
   date: string;
@@ -69,7 +68,7 @@ const Calendar: React.FC<CalendarProps> = ({
     const fetchHolidays = async () => {
       if (location) {
         const currentYear = format(currentDate, "yyyy");
-        const apiKey = "zlAHHyLuz5F5a40Za6gpJg==GpUfYDh81g3qWhLE";
+        const apiKey = "s55mrpg4Mvohn2DFvz8CVpU3tjtOMTyBhsUadq4Y";
 
         try {
           const response = await axios.get(
@@ -115,12 +114,10 @@ const Calendar: React.FC<CalendarProps> = ({
     parseInt(format(currentDate, "yyyy"), 10)
   );
 
-  // Function to handle year change
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedYearValue = parseInt(event.target.value, 10);
     setSelectedYear(selectedYearValue);
 
-    // Set the new year for the current date
     setCurrentDate(setYear(currentDate, selectedYearValue));
   };
   const days: Date[] = [];
@@ -154,7 +151,6 @@ const Calendar: React.FC<CalendarProps> = ({
       setCurrentDate(subYears(currentDate, 1));
     }
 
-    // Update the selectedYear state
     setSelectedYear(parseInt(format(currentDate, "yyyy"), 10));
   };
 
@@ -164,8 +160,6 @@ const Calendar: React.FC<CalendarProps> = ({
     } else {
       setCurrentDate(addYears(currentDate, 1));
     }
-
-    // Update the selectedYear state
     setSelectedYear(parseInt(format(currentDate, "yyyy"), 10));
   };
 
@@ -175,14 +169,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
   const handleGoToToday = () => {
     setCurrentDate(new Date());
-
-    // Update the selectedYear state
     setSelectedYear(parseInt(format(new Date(), "yyyy"), 10));
-  };
-
-  const handleLocationClick = () => {
-    // Implement your logic to open a location selection dialog or any other action
-    console.log("Location clicked!");
   };
 
   const toggleCountrySelector = () => {
@@ -190,172 +177,28 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   return (
-    <div className={`calendar-container ${theme} p-4 md:p-8 lg:p-12 rounded-md shadow-md`}>
-      <div className="calendar-controls flex flex-row md:flex-row items-start justify-center mb-4 bg-blue-800 text-white p-4 rounded-md">
-        <div className="controls-left flex space-x-2 mb-4 md:mb-0">
-          <button
-            onClick={handlePrev}
-            className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded w-10 transition duration-300"
-          >
-            &lsaquo;
-          </button>
-          <button
-            onClick={handleNext}
-            className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded w-10 transition duration-300"
-          >
-            &rsaquo;
-          </button>
-          <button
-            onClick={handleGoToToday}
-            className="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded w-20 transition duration-300"
-          >
-            Today
-          </button>
-        </div>
-
-        <div
-          className="location-selector cursor-pointer flex items-center mx-2 mb-4 md:mb-0"
-          onClick={toggleCountrySelector}
-        >
-          <span role="img" aria-label="location-icon" className="mr-2">
-            🌍
-          </span>
-          {location ? (
-            <span className="country-name text-white-600">
-              {
-                countryOptions.find((country) => country.value === location)
-                  ?.label
-              }
-            </span>
-          ) : (
-            <span className="text-white-600">Select Country</span>
-          )}
-        </div>
-
-        <CountrySelector
-          isOpen={showCountrySelector}
-          options={countryOptions}
-          selectedValue={location}
-          onClose={() => setShowCountrySelector(false)}
-          onSelect={handleLocationChange}
-        />
-
-        <div
-          className="controls-center cursor-pointer flex-grow text-center mb-4 md:mb-0"
-          onClick={handleLocationClick}
-        >
-          <span className="text-xl font-bold">
-            {view === "month"
-              ? format(currentDate, "MMMM yyyy")
-              : format(currentDate, "MMMM yyyy")}
-          </span>
-        </div>
-
-        <div className="controls-right flex space-x-2 relative inline-block text-left">
-          <button
-            onClick={() => handleViewChange("year")}
-            className={`text-white px-4 py-2 rounded ${
-              view === "year" ? "bg-blue-300 " : "bg-blue-500 hover:bg-blue-600"
-            } transition duration-300`}
-          >
-            Year
-          </button>
-          <button
-            onClick={() => handleViewChange("month")}
-            className={`text-white px-4 py-2 rounded ${
-              view === "month"
-                ? "bg-blue-300 "
-                : "bg-blue-500 hover:bg-blue-600"
-            } transition duration-300`}
-          >
-            Month
-          </button>
-          <select
-            value={selectedYear}
-            onChange={handleYearChange}
-            className="text-white px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 transition duration-300"
-          >
-            {/* Generate a list of years */}
-            {Array.from(
-              { length: 10 },
-              (_, index) => selectedYear - 5 + index
-            ).map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <table className="calendar-table w-full">
-        <thead>
-          <tr>
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-              (day, index) => (
-                <th
-                  key={index}
-                  className="calendar-header text-lg font-bold text-gray-800 border p-3 bg-gray-100"
-                >
-                  {day}
-                </th>
-              )
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {weeks.map((week, weekIndex) => (
-            <tr key={weekIndex} className="calendar-row">
-              {week.map((currentDay, dayIndex) => (
-                <td
-                  key={dayIndex}
-                  className={`calendar-cell ${
-                    isToday(currentDay as Date) ? "today" : "text-gray-800"
-                  } border p-8 text-2xl relative ${
-                    currentDay
-                      ? isToday(currentDay as Date)
-                        ? "bg-blue-600" // Adjusted background color for today's date
-                        : "bg-blue-200" // Adjusted background color for other dates
-                      : "bg-gray-300" // Adjusted background color for empty cells
-                  }`}
-                  onClick={() =>
-                    currentDay &&
-                    onHolidayClick(
-                      currentDay ? format(currentDay as Date, "yyyy-MM-dd") : ""
-                    )
-                  }
-                >
-                  <div className="date">
-                    {currentDay && (
-                      <span className="day-number text-3xl font-bold">
-                        {format(currentDay as Date, "d")}
-                      </span>
-                    )}
-                  </div>
-                  {currentDay && (
-                    <div className="holidays absolute top-0 right-0 mt-1 mr-1">
-                      {holidays
-                        .filter(
-                          (holiday) =>
-                            format(new Date(holiday.date), "yyyy-MM-dd") ===
-                            format(currentDay as Date, "yyyy-MM-dd")
-                        )
-                        .map((holiday) => (
-                          <div
-                            key={holiday.date}
-                            className="holiday-block bg-blue-500 text-white rounded p-0.5 text-xs"
-                          >
-                            <div className="holiday-name">{holiday.name}</div>
-                          </div>
-                        ))}
-                    </div>
-                  )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className={`calendar-container p-4 md:p-8 lg:p-12 rounded-md shadow-md`}>
+      <CalendarControls
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        handleGoToToday={handleGoToToday}
+        toggleCountrySelector={toggleCountrySelector}
+        showCountrySelector={showCountrySelector}
+        location={location}
+        countryOptions={countryOptions}
+        handleLocationChange={handleLocationChange}
+        view={view}
+        currentDate={currentDate}
+        handleYearChange={handleYearChange}
+        selectedYear={selectedYear}
+        handleViewChange={handleViewChange}
+      />
+      <CalendarTable
+        weeks={weeks}
+        currentDate={currentDate}
+        onHolidayClick={onHolidayClick}
+        holidays={holidays}
+      />
     </div>
   );
 };

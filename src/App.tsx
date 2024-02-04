@@ -1,15 +1,7 @@
-// src/App.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Calendar from './components/Calendar';
-import { useTheme } from './ThemeContext';
-import CountrySelector from './components/CountrySelector'; // Import the CountrySelector component
-import './styles.css';
-
-interface Holiday {
-  date: string;
-  name: string;
-}
+import CountrySelector from './components/CountrySelector';
 
 interface CountryOption {
   value: string;
@@ -17,9 +9,7 @@ interface CountryOption {
 }
 
 const App: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
-  const [location, setLocation] = useState<string>('');
-  // const [holidays, setHolidays] = useState<Holiday[]>([]);
+  const [location, setLocation] = useState<string>('IN');
   const [countryOptions, setCountryOptions] = useState<CountryOption[]>([]);
   const [showCountrySelector, setShowCountrySelector] = useState<boolean>(false);
 
@@ -53,15 +43,8 @@ const App: React.FC = () => {
     console.log(`Holiday clicked: ${date}`);
   };
 
-  const toggleCountrySelector = () => {
-    setShowCountrySelector((prev) => !prev);
-  };
-
   return (
-    <div className={`app-container ${theme}`}>
-      <div className="theme-toggle">
-        <button onClick={toggleTheme}>Toggle Theme</button>
-      </div>
+    <div className="app-container mt-5 md:mt-0">
       <CountrySelector
         isOpen={showCountrySelector}
         options={countryOptions}
