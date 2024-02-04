@@ -1,5 +1,6 @@
 import React from "react";
 import CountrySelector from "./CountrySelector";
+import "../App.css";
 import {
     format
   } from "date-fns";
@@ -51,7 +52,7 @@ const CalendarControls: React.FC<CalendarControlsProps> = ({
         </button>
         <button
           onClick={handleGoToToday}
-          className="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded w-20 transition duration-300"
+          className="text-white bg-blue-500 hover:bg-blue-400  px-4 py-2 rounded w-20 "
         >
           Today
         </button>
@@ -67,7 +68,7 @@ const CalendarControls: React.FC<CalendarControlsProps> = ({
 
       <div className="flex gap-x-4 items-center">
         <div
-          className="location-selector cursor-pointer flex items-center mx-2 mb-4 md:mb-0 bg-red-500 py-2 px-4 rounded-lg"
+          className="location-selector cursor-pointer flex items-center mx-2 mb-4 md:mb-0 bg-white text-blue-500 font-bold py-2 px-4 rounded-lg"
           onClick={toggleCountrySelector}
         >
           <span role="img" aria-label="location-icon" className="gap-x-2">

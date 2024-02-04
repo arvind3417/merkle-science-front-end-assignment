@@ -47,7 +47,7 @@ const CalendarTable: React.FC<CalendarTableProps> = ({
                       : "bg-blue-200"
                     : "bg-gray-200"
                 }`}
-                style={{ maxWidth: "100px", width: "100px" }}
+                style={{ maxWidth: "100px", width: "100px" , height:"100px"}}
                 onClick={() =>
                   currentDay &&
                   onHolidayClick(
@@ -59,7 +59,7 @@ const CalendarTable: React.FC<CalendarTableProps> = ({
               >
                 <div className="date p-4 pb-0">
                   {currentDay && (
-                    <span className="day-number text-xs sm:text-base md:text-lg lg:text-xl font-bold">
+                    <span className="day-number text-xs sm:text-base md:text-lg lg:text-2xl font-bold">
                       {format(currentDay as Date, "d")}
                     </span>
                   )}
